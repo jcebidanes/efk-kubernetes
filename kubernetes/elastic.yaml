@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
@@ -12,25 +12,24 @@ spec:
         component: elasticsearch
     spec:
       containers:
-      - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-        env:
-        - name: discovery.type
-          value: single-node
-        ports:
-        - containerPort: 9200
-          name: http
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 500m
-            memory: 4Gi
-          requests:
-            cpu: 500m
-            memory: 4Gi
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+          env:
+            - name: discovery.type
+              value: single-node
+          ports:
+            - containerPort: 9200
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              memory: 4Gi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -42,5 +41,5 @@ spec:
   selector:
     component: elasticsearch
   ports:
-  - port: 9200
-    targetPort: 9200
+    - port: 9200
+      targetPort: 9200
